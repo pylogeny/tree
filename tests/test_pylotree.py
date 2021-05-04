@@ -42,3 +42,16 @@ def test_Tree():
 
     with pytest.raises(KeyError):
         _ = tree['e1']
+
+
+def test_Tree_copy():
+    nwk = "(((A,B)e1,(C,D)e2)e3,E)root;"
+    tree1 = Tree(nwk)
+    # copying creates new Nodes:
+    tree2 = Tree.copy(tree1)
+    tree2['e1'].name = 'ex'
+    assert 'ex' in tree2 and 'e1' in tree1
+    # __init__ does not:
+    tree3 = Tree(tree1)
+    tree3['e1'].name = 'ex'
+    assert 'ex' in tree1

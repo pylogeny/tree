@@ -38,7 +38,9 @@ class Tree:
     Wraps a `newick.Node`, providing more convenient node access, etc.
     """
     def __init__(self, tree, name=None):
-        if isinstance(tree, str):
+        if isinstance(tree, Tree):
+            self.root = tree.root
+        elif isinstance(tree, str):
             self.root = newick.loads(tree)[0]
         else:
             assert isinstance(tree, newick.Node)
@@ -47,6 +49,13 @@ class Tree:
         self.root.visit(NodeLabels())
         if name:
             self.root.name = name
+
+    @classmethod
+    def copy(cls, tree):
+        """
+        Copy a Tree, creating new `Node`s.
+        """
+        return cls(tree.newick, name=tree.name)
 
     @property
     def newick(self):
