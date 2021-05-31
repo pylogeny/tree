@@ -55,3 +55,11 @@ def test_Tree_copy():
     tree3 = Tree(tree1)
     tree3['e1'].name = 'ex'
     assert 'ex' in tree1
+
+
+def test_root_at():
+
+    tree = Tree("(G:2,(((A:1,B:2):2,C:3):1,((D:1,E:1):3,F:1):2));")
+    for node in tree.preorder[1:]:
+        nt = root_at(tree, node.name)
+        assert node.name in [n.name for n in nt.root.descendants]
